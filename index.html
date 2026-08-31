@@ -2,47 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <title>Wooseok Lee (homepage)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Wooseok Lee — Ph.D. student in ECE at Seoul National University.">
+    <title>Wooseok Lee</title>
+    <style>
+        :root { --background: #101214; --surface: #181b1f; --text: #c7c9cd; --muted: #898d93; --heading: #fff; --accent: #fec260; --border: #2a2e33; }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; color: var(--text); background: var(--background); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif; font-size: 16px; line-height: 1.7; }
+        a { color: inherit; text-decoration: none; }
+        .page { display: grid; grid-template-columns: minmax(260px, 360px) minmax(0, 1fr); gap: clamp(3rem, 8vw, 8rem); width: min(1120px, calc(100% - 3rem)); min-height: 100vh; margin: 0 auto; padding: clamp(4rem, 12vh, 8rem) 0; }
+        .profile { text-align: center; }
+        .profile-carousel { position: relative; width: min(100%, 320px); aspect-ratio: 642 / 1053; margin: 0 auto 1.5rem; overflow: hidden; background: var(--surface); }
+        .profile__image { display: block; width: 100%; height: 100%; object-fit: cover; }
+        .photo-control { position: absolute; top: 50%; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; padding: 0; border: 1px solid var(--border); border-radius: 999px; color: var(--heading); background: rgb(16 18 20 / 78%); font-size: 1.5rem; line-height: 1; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(-50%); transition: border-color .2s ease, color .2s ease, background-color .2s ease, opacity .2s ease; }
+        .profile-carousel:hover .photo-control, .profile-carousel:focus-within .photo-control { opacity: 1; pointer-events: auto; }
+        .photo-control:hover, .photo-control:focus-visible { border-color: var(--accent); color: var(--accent); background: var(--surface); outline: none; }
+        .photo-control--previous { left: .5rem; }
+        .photo-control--next { right: .5rem; }
+        h1, h2, p { margin-top: 0; }
+        h1 { margin-bottom: 0; color: var(--heading); font-size: clamp(1.7rem, 3vw, 2rem); line-height: 1.25; }
+        .korean-name { margin: .2rem 0 .75rem; color: var(--muted); font-size: 1rem; }
+        .affiliation { max-width: 290px; margin: 0 auto 1.25rem; color: var(--muted); font-size: .98rem; line-height: 1.55; }
+        .github-link { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .75rem; border: 1px solid var(--border); border-radius: 999px; color: var(--heading); font-size: .92rem; transition: border-color .2s ease, color .2s ease, transform .2s ease; }
+        .github-link:hover, .github-link:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; transform: translateY(-2px); }
+        .github-link svg { width: 1.1rem; height: 1.1rem; fill: currentColor; }
+        .profile .inline-links { justify-content: center; gap: .6rem; margin-top: .75rem; }
+        .profile .github-link, .profile .button-link { justify-content: center; min-height: 40px; border-radius: 999px; font-size: .92rem; white-space: nowrap; }
+        .content { min-width: 0; }
+        section + section { margin-top: 3.5rem; }
+        h2 { margin-bottom: 1rem; color: var(--accent); font-size: 1.35rem; letter-spacing: .01em; }
+        .content p { margin-bottom: 1rem; }
+        .inline-links { display: flex; flex-wrap: wrap; gap: .75rem; }
+        .button-link { padding: .35rem .8rem; border: 1px solid var(--border); border-radius: 999px; color: var(--heading); font-size: .95rem; transition: background-color .2s ease, border-color .2s ease; }
+        .button-link:hover, .button-link:focus-visible { border-color: var(--accent); background: var(--surface); outline: none; }
+        .publication + .publication { margin-top: 1.6rem; }
+        .publication__title { display: inline; color: var(--heading); font-size: 1.08rem; font-weight: 600; line-height: 1.5; transition: color .2s ease; }
+        .publication__title:hover, .publication__title:focus-visible { color: var(--accent); outline: none; }
+        .content .publication__authors, .content .publication__venue { margin: .15rem 0 0; color: var(--muted); font-size: .98rem; line-height: 1.5; }
+        .publication__authors strong { color: var(--text); }
+        .publication__venue { font-style: italic; }
+        .project + .project { margin-top: .9rem; }
+        .project__title { margin: 0 0 .08rem; color: var(--heading); font-size: 1.08rem; line-height: 1.4; }
+        .project__title a { transition: color .2s ease; }
+        .project__title a:hover, .project__title a:focus-visible { color: var(--accent); outline: none; }
+        .project p { margin: 0; color: var(--muted); font-size: .98rem; line-height: 1.4; }
+        .contact-list { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
+        .contact-list a { width: fit-content; color: var(--text); border-bottom: 1px solid transparent; }
+        .contact-list a:hover, .contact-list a:focus-visible { border-color: var(--accent); color: var(--heading); outline: none; }
+        @media (max-width: 760px) { .page { grid-template-columns: 1fr; gap: 3.5rem; width: min(100% - 2.5rem, 620px); padding: 3.5rem 0 4rem; } .profile-carousel { width: min(100%, 260px); } section + section { margin-top: 3rem; } }
+        @media (hover: none) { .photo-control { opacity: 1; pointer-events: auto; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto; transition-duration: .01ms !important; } }
+    </style>
 </head>
 <body>
-    <div class="grid-2">
-        <div class="section-1">
-            <img src="./src/me.jpg", width="320">
-            <!-- <i class="fas fa-code fa-5x white" ></i> -->
-            <h2>Wooseok Lee</h2>
-            <h3>(이우석)</h3>
-            <p>Graduated Student in ECE, Seoul National University, Korea</p>
-            <!-- <a href="#"><i class="fab fa-twitter"></i></a> -->
-            <!-- <a href="#"><i class="fab fa-linkedin"></i></a> -->
-            <a href="https://github.com/wooseoklee4"><i class="fab fa-github"></i></a>
+    <main class="page">
+        <aside class="profile">
+            <div class="profile-carousel" aria-label="Profile photos">
+                <img id="profile-photo" class="profile__image" src="./src/me2.jpg" width="320" height="320" alt="Wooseok Lee">
+                <button class="photo-control photo-control--previous" type="button" aria-label="Show previous photo">‹</button>
+                <button class="photo-control photo-control--next" type="button" aria-label="Show next photo">›</button>
+            </div>
+            <h1>Wooseok Lee</h1>
+            <p class="korean-name">이우석</p>
+            <p class="affiliation">Ph.D. Student in ECE<br>Seoul National University, Korea</p>
+            <div class="inline-links" aria-label="Profile links">
+                <a class="github-link" href="https://github.com/wooseoklee4" aria-label="Wooseok Lee on GitHub">
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.49c-2.23.49-2.7-.95-2.7-.95-.36-.93-.89-1.18-.89-1.18-.73-.5.06-.49.06-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.88 2.34.67.07-.52.28-.88.51-1.08-1.78-.2-3.65-.89-3.65-3.96 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 4.8c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.08-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48v2.2c0 .21.14.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+                    GitHub
+                </a>
+                <a class="button-link" href="./src/CV_WooseokLee.pdf">CV</a>
+                <a class="button-link" href="https://scholar.google.com/citations?user=-RVCAGIAAAAJ&amp;hl=ko&amp;oi=ao">Google Scholar</a>
+            </div>
+        </aside>
+        <div class="content">
+            <section aria-labelledby="about">
+                <h2 id="about">About me</h2>
+                <p>I'm Wooseok Lee, a Ph.D. student in Electrical and Computer Engineering (ECE) at Seoul National University, supervised by Prof. Kyoung Mu Lee. My research focuses on low-level image restoration, with a particular emphasis on practical real-world image denoising.</p>
+                <p>Especially, I study self-supervised denoising methods that recover clean images from noisy observations without ground-truth (GT) clean images. I aim to develop reliable approaches that can be trained directly on real-world noisy data, where collecting paired clean targets is often impractical.</p>
+            </section>
+            <section aria-labelledby="papers">
+                <h2 id="papers">Papers</h2>
+                <article class="publication">
+                    <a class="publication__title" href="https://github.com/wooseoklee4/AP-BSN">AP-BSN: Self-Supervised Denoising for Real-World Images via Asymmetric PD and Blind-Spot Network</a>
+                    <p class="publication__authors"><strong>Wooseok Lee</strong>, Sanghyun Son, Kyoung Mu Lee</p>
+                    <p class="publication__venue">CVPR, 2022</p>
+                </article>
+                <article class="publication">
+                    <a class="publication__title" href="https://github.com/onwn/c2n">C2N: Practical Generative Noise Modeling for Real-World Denoising</a>
+                    <p class="publication__authors">Geonwoon Jang*, <strong>Wooseok Lee*</strong>, Sanghyun Son, Kyoung Mu Lee</p>
+                    <p class="publication__venue">ICCV, 2021</p>
+                </article>
+            </section>
+            <section aria-labelledby="projects">
+                <h2 id="projects">Research projects</h2>
+                <article class="project">
+                    <h3 class="project__title">Self-supervised Raw Real-world Image Denoising</h3>
+                    <p>Hanwha Techwin</p>
+                </article>
+                <article class="project">
+                    <h3 class="project__title">Self-supervised Scanning Electron Microscope (SEM) Image Denoising</h3>
+                    <p>Samsung Electronics (Semiconductor R&amp;D Center)</p>
+                </article>
+                <article class="project">
+                    <h3 class="project__title">Tunable Software Image Signal Processing</h3>
+                    <p>Samsung Electronics (SAIT)</p>
+                </article>
+                <article class="project">
+                    <h3 class="project__title">Camera Image Restoration using Large AI Models</h3>
+                    <p>Samsung Electronics (MX)</p>
+                </article>
+                <article class="project">
+                    <h3 class="project__title">AI-driven Optimal Formulation Technology to Enhance Zinc Oxide Yield</h3>
+                    <p>Taekyung SBC</p>
+                </article>
+            </section>
+            <section aria-labelledby="contact">
+                <h2 id="contact">Contact</h2>
+                <div class="contact-list">
+                    <a href="mailto:adntjr4@gmail.com">adntjr4@gmail.com</a>
+                    <a href="mailto:adntjr4@snu.ac.kr">adntjr4@snu.ac.kr</a>
+                </div>
+            </section>
         </div>
-        <div class="section-2">
-            <h2>About</h2>
-            <p>I am Ph.D. student in ECE at Seoul National University, supervised by Prof. Kyoung Mu Lee. My main research topic is about low-level image restoration problems, especially deep image denoising. Currently I am studying practical real-world denoising problem. </p>
-            <a href="./src/CV_WooseokLee.pdf">CV</a>
-            <a href="https://scholar.google.com/citations?user=-RVCAGIAAAAJ&hl=ko&oi=ao">google scholar</a>
+    </main>
+    <script>
+        const photos = [
+            { src: './src/me2.jpg', alt: 'Wooseok Lee' },
+            { src: './src/me.jpg', alt: 'Wooseok Lee' }
+        ];
+        const profilePhoto = document.querySelector('#profile-photo');
+        let currentPhoto = 0;
 
-            <!-- Research -->
-            <h2>Research</h2>
+        function changePhoto(direction) {
+            currentPhoto = (currentPhoto + direction + photos.length) % photos.length;
+            profilePhoto.src = photos[currentPhoto].src;
+            profilePhoto.alt = photos[currentPhoto].alt;
+        }
 
-            <a href="https://github.com/wooseoklee4/AP-BSN">AP-BSN: Self-Supervised Denoising for Real-World Images via Asymmetric PD and Blind-Spot Network</a>
-            <p class="author"><b>Wooseok Lee</b>, Sanghyun Son, Kyoung Mu Lee</p>
-            <p class="conference">CVPR, 2022</p>
-
-            <a href="https://github.com/onwn/c2n">C2N: Practical Generative Noise Modeling for Real-World Denoising</a>
-            <p class="author">Geonwoon Jang*, <b>Wooseok Lee*</b>, Sanghyun Son, Kyoung Mu Lee</p>
-            <p class="conference">ICCV, 2021</p>
-            
-
-            <h2>Contact</h2>
-            <p>adntjr4@gmail.com</p>
-            <p>adntjr4@snu.ac.kr</p>
-
-        </div>
-    </div>
+        document.querySelector('.photo-control--previous').addEventListener('click', () => changePhoto(-1));
+        document.querySelector('.photo-control--next').addEventListener('click', () => changePhoto(1));
+    </script>
 </body>
 </html>
